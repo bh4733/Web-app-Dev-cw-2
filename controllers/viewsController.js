@@ -172,3 +172,9 @@ export const bookingConfirmationPage = async (req, res, next) => {
     next(err);
   }
 };
+
+export const LoginPage = (req, res) => {
+  res.render("login", { title: "Login" });
+};
+
+
