@@ -88,6 +88,42 @@ export const courseDetailPage = async (req, res, next) => {
   }
 };
 
+export const bookCoursePage = async (req, res, next) => {
+  try {
+    const courseId = req.params.id;
+    const course = await CourseModel.findById(courseId);
+    if (!course)
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Course not found" });
+
+    const sessions = await SessionModel.listByCourse(courseId);
+    const rows = sessions.map((s) => ({
+      id: s._id,
+      start: fmtDate(s.startDateTime),
+      remaining: Math.max(0, (s.capacity ?? 0) - (s.bookedCount ?? 0)),
+    }));
+
+    res.render("course_book", {
+      title: `Book: ${course.title}`,
+      course: {
+        id: course._id,
+        title: course.title,
+        level: course.level,
+        type: course.type,
+        allowDropIn: course.allowDropIn,
+        startDate: course.startDate ? fmtDateOnly(course.startDate) : "",
+        endDate: course.endDate ? fmtDateOnly(course.endDate) : "",
+        description: course.description,
+      },
+      sessions: rows,
+      sessionsCount: rows.length,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const postBookCourse = async (req, res, next) => {
   try {
     const courseId = req.params.id;

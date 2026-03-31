@@ -11,6 +11,7 @@ export const attachDemoUser = async (req, res, next) => {
     }
     req.user = user;
     res.locals.user = user; // exposed to Mustache
+    res.locals.year = new Date().getFullYear();
     next();
   } catch (err) {
     next(err);

@@ -110,14 +110,14 @@ app.use(attachDemoUser);
 // Health
 app.get("/health", (req, res) => res.json({ ok: true }));
 
+// SSR view routes
+app.use("/", viewRoutes);
+
 // JSON API routes
 // app.use('/auth', authRoutes);
 app.use("/courses", courseRoutes);
 app.use("/sessions", sessionRoutes);
 app.use("/bookings", bookingRoutes);
-
-// SSR view routes
-app.use("/", viewRoutes);
 
 // Errors
 export const not_found = (req, res) =>

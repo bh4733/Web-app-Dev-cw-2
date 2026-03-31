@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   homePage,
   courseDetailPage,
+  bookCoursePage,
   postBookCourse,
   postBookSession,
   bookingConfirmationPage,
@@ -15,6 +16,7 @@ const router = Router();
 router.get("/", homePage);
 router.get("/courses", coursesListPage);
 router.get("/courses/:id", courseDetailPage);
+router.get("/courses/:id/book", bookCoursePage);
 router.post("/courses/:id/book", postBookCourse);
 router.post("/sessions/:id/book", postBookSession);
 router.get("/bookings/:bookingId", bookingConfirmationPage);
