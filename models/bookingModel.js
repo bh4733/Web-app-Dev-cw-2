@@ -18,4 +18,7 @@ export const BookingModel = {
     await bookingsDb.update({ _id: id }, { $set: { status: "CANCELLED" } });
     return this.findById(id);
   },
+  async listByCourse(courseId) {
+    return bookingsDb.find({ courseId, status: { $ne: "CANCELLED" } }).sort({ createdAt: -1 });
+  },
 };

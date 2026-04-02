@@ -1,0 +1,71 @@
+{{> head}}
+{{> header}}
+
+<h1>Manage Users</h1>
+
+{{#errors}}
+<div class="alert error" role="alert">
+  <ul>
+    {{#list}}
+    <li>{{.}}</li>
+    {{/list}}
+  </ul>
+</div>
+{{/errors}}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#users}}
+    <tr>
+      <td>{{name}}</td>
+      <td>{{email}}</td>
+      <td>{{role}}</td>
+      <td>
+        {{#isStudent}}
+        <form method="post" action="/organiser/users/{{id}}/make-organiser" style="display:inline">
+          <button class="btn" type="submit">Make Organiser</button>
+        </form>
+        &nbsp;
+        {{/isStudent}}
+        <form method="post" action="/organiser/users/{{id}}/delete" style="display:inline" onsubmit="return confirm('Remove this user?')">
+          <button class="btn btn-danger" type="submit">Remove</button>
+        </form>
+      </td>
+    </tr>
+    {{/users}}
+    {{^users}}
+    <tr><td colspan="4" class="muted">No users found.</td></tr>
+    {{/users}}
+  </tbody>
+</table>
+
+<hr />
+
+<h2>Add Organiser</h2>
+<form method="post" action="/organiser/users/new">
+  <div class="form-group">
+    <label for="name">Full Name</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{values.name}}" required />
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" name="email" value="{{values.email}}" required />
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" name="password" required />
+  </div>
+  <div class="form-group">
+    <input type="submit" class="btn btn-primary" value="Add Organiser" />
+  </div>
+</form>
+
+{{> footer}}

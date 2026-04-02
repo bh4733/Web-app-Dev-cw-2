@@ -1,0 +1,41 @@
+{{> head}}
+{{> header}}
+
+<section class="about-section">
+  <h1>About Us</h1>
+  <p>
+   Welcome to yoga studio. A place for yog classes at any difficulty level! 
+  </p>
+</section>
+
+<section class="about-section">
+  <h2>Our Classes</h2>
+  {{#courses}}
+  <article class="about-class">
+    <h3>{{title}}</h3>
+    <p class="muted">Level: {{level}} &nbsp;|&nbsp; Type: {{type}} {{#allowDropIn}}&nbsp;|&nbsp; Drop-in welcome{{/allowDropIn}}</p>
+    <p>{{description}}</p>
+  </article>
+  {{/courses}}
+  {{^courses}}
+  <p>Classes coming soon — check back shortly.</p>
+  {{/courses}}
+  <p><a href="/courses" class="btn btn-primary">View schedule &amp; book</a></p>
+</section>
+
+<section class="about-section">
+  <h2>Location</h2>
+  <address class="about-address">
+    <strong>Yoga Studio</strong><br>
+    12 Serenity Lane<br>
+    Brighton<br>
+    BN1 1AA<br>
+    United Kingdom
+  </address>
+  <p>
+    <strong>Phone:</strong> 01273 000 000<br>
+    <strong>Email:</strong> hello@yogastudio.example<br>
+  </p>
+</section>
+
+{{> footer}}

@@ -24,7 +24,7 @@ export const app = express();
 // View engine (Mustache)
 app.engine(
   "mustache",
-  mustacheExpress(path.join(__dirname, "views", "partials"), ".mustache")
+  mustacheExpress(path.join(__dirname, "views", "partials"), ".mustache"),
 );
 app.set("view engine", "mustache");
 app.set("views", path.join(__dirname, "views"));
@@ -67,6 +67,6 @@ if (process.env.NODE_ENV !== "test") {
   await initDb();
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () =>
-    console.log(`Yoga booking running on http://localhost:${PORT}`)
+    console.log(`Yoga booking running on http://localhost:${PORT}`),
   );
 }

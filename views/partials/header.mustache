@@ -3,7 +3,18 @@
     🧘 Yoga Studio
     <nav>
       <a href="/">Home</a>
+      <a href="/about">About</a>
       <a href="/courses">Courses</a>
+      {{#isOrganiser}}
+      <a href="/organiser">Dashboard</a>
+      {{/isOrganiser}}
+      {{#user}}
+      <a href="/logout">Logout</a>
+      {{/user}}
+      {{^user}}
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+      {{/user}}
     </nav>
     {{#user}}
     <div class="user">

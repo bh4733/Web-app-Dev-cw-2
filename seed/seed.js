@@ -9,6 +9,7 @@ import {
 import { CourseModel } from "../models/courseModel.js";
 import { SessionModel } from "../models/sessionModel.js";
 import { UserModel } from "../models/userModel.js";
+import bcrypt from "bcryptjs";
 
 const iso = (d) => new Date(d).toISOString();
 
@@ -39,6 +40,20 @@ async function ensureDemoStudent() {
     });
   }
   return student;
+}
+
+async function ensureDemoOrganiser() {
+  let organiser = await UserModel.findByEmail("admin@yoga.local");
+  if (!organiser) {
+    const password = await bcrypt.hash("organiser123", 12);
+    organiser = await UserModel.create({
+      name: "Admin",
+      email: "admin@yoga.local",
+      password,
+      role: "organiser",
+    });
+  }
+  return organiser;
 }
 
 async function createWeekendWorkshop() {
@@ -141,6 +156,9 @@ async function run() {
   console.log("Wiping existing data…");
   await wipeAll();
 
+  console.log("Creating demo organiser…");
+  await ensureDemoOrganiser();
+
   console.log("Creating demo student…");
   const student = await ensureDemoStudent();
 
@@ -153,6 +171,7 @@ async function run() {
   await verifyAndReport();
 
   console.log("\n✅ Seed complete.");
+  console.log("Organiser login      : admin@yoga.local / organiser123");
   console.log("Student ID           :", student._id);
   console.log(
     "Workshop course ID   :",

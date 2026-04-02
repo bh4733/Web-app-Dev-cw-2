@@ -1,0 +1,40 @@
+{{> head}}
+{{> header}}
+
+<h1>{{title}}</h1>
+<p><a href="/organiser/courses">← Back to courses</a></p>
+
+<a class="btn primary" href="/organiser/courses/{{course.id}}/sessions/new">+ Add Session</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Start</th>
+      <th>End</th>
+      <th>Capacity</th>
+      <th>Booked</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#sessions}}
+    <tr>
+      <td>{{start}}</td>
+      <td>{{end}}</td>
+      <td>{{capacity}}</td>
+      <td>{{booked}}</td>
+      <td>
+        <a href="/organiser/sessions/{{id}}/edit">Edit</a> &nbsp;
+        <form method="post" action="/organiser/sessions/{{id}}/delete" style="display:inline" onsubmit="return confirm('Delete this session?')">
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {{/sessions}}
+    {{^sessions}}
+    <tr><td colspan="5" class="muted">No sessions yet.</td></tr>
+    {{/sessions}}
+  </tbody>
+</table>
+
+{{> footer}}

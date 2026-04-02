@@ -1,0 +1,34 @@
+{{> head}}
+{{> header}}
+
+<h1>{{title}}</h1>
+<p><a href="/organiser/courses">← Back to courses</a></p>
+<p class="muted">{{count}} participant(s)</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Booking Type</th>
+      <th>Status</th>
+      <th>Booked At</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#participants}}
+    <tr>
+      <td>{{name}}</td>
+      <td>{{email}}</td>
+      <td>{{type}}</td>
+      <td>{{status}}</td>
+      <td>{{bookedAt}}</td>
+    </tr>
+    {{/participants}}
+    {{^participants}}
+    <tr><td colspan="5" class="muted">No bookings yet.</td></tr>
+    {{/participants}}
+  </tbody>
+</table>
+
+{{> footer}}

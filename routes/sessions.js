@@ -16,4 +16,3 @@ router.get('/by-course/:courseId', async (req, res) => {
 });
 
 export default router;
-``

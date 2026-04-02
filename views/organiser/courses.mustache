@@ -1,0 +1,42 @@
+{{> head}}
+{{> header}}
+
+<h1>Manage Courses</h1>
+<a class="btn primary" href="/organiser/courses/new">+ Add Course</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Level</th>
+      <th>Type</th>
+      <th>Drop-in</th>
+      <th>Sessions</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#courses}}
+    <tr>
+      <td>{{title}}</td>
+      <td>{{level}}</td>
+      <td>{{type}}</td>
+      <td>{{#allowDropIn}}Yes{{/allowDropIn}}{{^allowDropIn}}No{{/allowDropIn}}</td>
+      <td>{{sessionsCount}}</td>
+      <td>
+        <a href="/organiser/courses/{{id}}/sessions">Sessions</a> &nbsp;
+        <a href="/organiser/courses/{{id}}/classlist">Class List</a> &nbsp;
+        <a href="/organiser/courses/{{id}}/edit">Edit</a> &nbsp;
+        <form method="post" action="/organiser/courses/{{id}}/delete" style="display:inline" onsubmit="return confirm('Delete this course and all its sessions?')">
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {{/courses}}
+    {{^courses}}
+    <tr><td colspan="6" class="muted">No courses yet.</td></tr>
+    {{/courses}}
+  </tbody>
+</table>
+
+{{> footer}}

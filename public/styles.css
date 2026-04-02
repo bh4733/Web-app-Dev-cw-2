@@ -110,22 +110,36 @@ nav a {
 }
 
 .filter-form {
-    .filter-form {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 0.75rem;
-        align-items: end;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    align-items: end;
+}
 
-    .filter-form label {
-        display: grid;
-        gap: 0.25rem;
-    }
+.filter-form label {
+    display: grid;
+    gap: 0.25rem;
+}
 
-    .pagination {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        margin-top: 1rem;
-    }
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.about-section {
+    margin-bottom: 2.5rem;
+}
+
+.about-class {
+    border-left: 3px solid var(--brand);
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-address {
+    font-style: normal;
+    line-height: 1.8;
+    margin-bottom: 1rem;
 }

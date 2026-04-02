@@ -6,6 +6,8 @@ import {
   bookSessionForUser,
 } from "../services/bookingService.js";
 import { BookingModel } from "../models/bookingModel.js";
+import { UserModel } from "../models/userModel.js";
+import bcrypt from "bcryptjs";
 
 const fmtDate = (iso) =>
   new Date(iso).toLocaleString("en-GB", {
@@ -22,6 +24,24 @@ const fmtDateOnly = (iso) =>
     month: "short",
     day: "numeric",
   });
+
+export const aboutPage = async (req, res, next) => {
+  try {
+    const courses = await CourseModel.list();
+    res.render("about", {
+      title: "About Us",
+      courses: courses.map((c) => ({
+        title: c.title,
+        level: c.level,
+        type: c.type,
+        allowDropIn: c.allowDropIn,
+        description: c.description,
+      })),
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 export const homePage = async (req, res, next) => {
   try {
@@ -175,6 +195,55 @@ export const bookingConfirmationPage = async (req, res, next) => {
 
 export const LoginPage = (req, res) => {
   res.render("login", { title: "Login" });
+};
+
+export const postLogin = (req, res) => {
+  res.redirect("/");
+};
+
+export const logout = (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/login");
+};
+
+export const RegisterPage = (req, res) => {
+  res.render("register", { title: "Register" });
+};
+
+export const postRegister = async (req, res, next) => {
+  try {
+    const { name, email, password, confirmPassword } = req.body;
+    const errors = [];
+
+    if (!name || !name.trim()) errors.push("Full name is required.");
+    if (!email || !email.trim()) errors.push("Email is required.");
+    if (!password) errors.push("Password is required.");
+    if (password && password.length < 6) errors.push("Password must be at least 6 characters.");
+    if (password !== confirmPassword) errors.push("Passwords do not match.");
+
+    if (errors.length) {
+      return res.status(400).render("register", {
+        title: "Register",
+        errors: { list: errors },
+        values: { name, email },
+      });
+    }
+
+    const existing = await UserModel.findByEmail(email.trim());
+    if (existing) {
+      return res.status(400).render("register", {
+        title: "Register",
+        errors: { list: ["An account with that email already exists."] },
+        values: { name, email },
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    await UserModel.create({ name: name.trim(), email: email.trim(), password: hashedPassword, role: "student" });
+    res.redirect("/login");
+  } catch (err) {
+    next(err);
+  }
 };
 
 

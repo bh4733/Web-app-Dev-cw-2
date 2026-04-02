@@ -1,0 +1,75 @@
+{{> head}}
+{{> header}}
+
+<h1>{{title}}</h1>
+
+{{#errors}}
+<div class="alert error" role="alert">
+  <ul>
+    {{#list}}
+    <li>{{.}}</li>
+    {{/list}}
+  </ul>
+</div>
+{{/errors}}
+
+{{#editing}}
+<form method="post" action="/organiser/courses/{{course.id}}/edit">
+{{/editing}}
+{{^editing}}
+<form method="post" action="/organiser/courses/new">
+{{/editing}}
+
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="title" name="title" value="{{course.title}}" required />
+  </div>
+
+  <div class="form-group">
+    <label for="level">Level</label>
+    <select class="form-control" id="level" name="level" required>
+      <option value="">-- select --</option>
+      <option value="beginner" {{#course.levelBeginner}}selected{{/course.levelBeginner}}>Beginner</option>
+      <option value="intermediate" {{#course.levelIntermediate}}selected{{/course.levelIntermediate}}>Intermediate</option>
+      <option value="advanced" {{#course.levelAdvanced}}selected{{/course.levelAdvanced}}>Advanced</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="type">Type</label>
+    <select class="form-control" id="type" name="type" required>
+      <option value="">-- select --</option>
+      <option value="WEEKLY_BLOCK" {{#course.typeWeekly}}selected{{/course.typeWeekly}}>Weekly Block</option>
+      <option value="WEEKEND_WORKSHOP" {{#course.typeWeekend}}selected{{/course.typeWeekend}}>Weekend Workshop</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="allowDropIn" {{#course.allowDropIn}}checked{{/course.allowDropIn}} />
+      Allow drop-in sessions
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <input type="date" class="form-control" id="startDate" name="startDate" value="{{course.startDate}}" />
+  </div>
+
+  <div class="form-group">
+    <label for="endDate">End Date</label>
+    <input type="date" class="form-control" id="endDate" name="endDate" value="{{course.endDate}}" />
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" id="description" name="description" rows="4">{{course.description}}</textarea>
+  </div>
+
+  <div class="form-group">
+    <input type="submit" class="btn btn-primary" value="{{#editing}}Save Changes{{/editing}}{{^editing}}Add Course{{/editing}}" />
+    <a href="/organiser/courses">Cancel</a>
+  </div>
+</form>
+
+{{> footer}}
