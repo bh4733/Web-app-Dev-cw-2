@@ -1,32 +1,44 @@
 {{> head}}
 {{> header}}
 
-<h1>{{title}}</h1>
-<p><a href="/organiser/courses">← Back to courses</a></p>
-<p class="muted">{{count}} participant(s)</p>
+<div class="section-header">
+  <div>
+    <h1>{{title}}</h1>
+    <p class="muted"><a href="/organiser/courses">Back to courses</a></p>
+  </div>
+  <span class="badge" style="background:var(--brand-light);color:var(--brand-dark);font-size:0.9rem;padding:0.4rem 0.9rem">
+    {{count}} participant(s)
+  </span>
+</div>
 
 <table class="table">
   <thead>
     <tr>
       <th>Name</th>
       <th>Email</th>
-      <th>Booking Type</th>
+      <th>Booking type</th>
       <th>Status</th>
-      <th>Booked At</th>
+      <th>Booked at</th>
     </tr>
   </thead>
   <tbody>
     {{#participants}}
     <tr>
-      <td>{{name}}</td>
+      <td><strong>{{name}}</strong></td>
       <td>{{email}}</td>
       <td>{{type}}</td>
-      <td>{{status}}</td>
+      <td>
+        <span class="badge"
+          style="background:{{#isConfirmed}}#dcfce7{{/isConfirmed}}{{^isConfirmed}}#fef9c3{{/isConfirmed}};
+                 color:{{#isConfirmed}}#166534{{/isConfirmed}}{{^isConfirmed}}#854d0e{{/isConfirmed}}">
+          {{status}}
+        </span>
+      </td>
       <td>{{bookedAt}}</td>
     </tr>
     {{/participants}}
     {{^participants}}
-    <tr><td colspan="5" class="muted">No bookings yet.</td></tr>
+    <tr><td colspan="5" class="muted" style="text-align:center;padding:1.5rem">No bookings yet.</td></tr>
     {{/participants}}
   </tbody>
 </table>

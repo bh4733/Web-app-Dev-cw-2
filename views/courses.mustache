@@ -9,20 +9,18 @@
     <label>
       Level
       <select name="level">
-        <option value="" {{^filters.level}}selected{{/filters.level}}>Any</option>
+        <option value="" {{^filters.level}}selected{{/filters.level}}>Any level</option>
         <option value="beginner">Beginner</option>
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
       </select>
     </label>
-
     <label>
       Search
       <input type="search" name="q" value="{{filters.q}}" placeholder="Title or description" />
     </label>
-
-    <button class="btn" type="submit">Apply</button>
-    <a href="/courses">Reset</a>
+    <button class="btn primary" type="submit">Search</button>
+    <a class="btn" href="/courses">Reset</a>
   </form>
 </section>
 
@@ -30,18 +28,20 @@
   {{#courses}}
   <article class="card">
     <h2><a href="/courses/{{id}}">{{title}}</a></h2>
-    <p class="muted">
-      Level: {{level}} • Type: {{type}} {{#allowDropIn}}• Drop-in OK{{/allowDropIn}}
+    <p>
+      <span class="badge badge-{{level}}">{{level}}</span>
+      {{#allowDropIn}}<span class="badge" style="background:#e0f2fe;color:#075985">Drop-in OK</span>{{/allowDropIn}}
     </p>
-    <p>{{description}}</p>
-    <p class="muted">Dates: {{startDate}} – {{endDate}}</p>
-    <p class="muted">Next session: {{nextSession}} • Sessions: {{sessionsCount}}</p>
-    <p><a href="/courses/{{id}}">View &amp; Book</a></p>
+    <p class="muted">{{description}}</p>
+    <p class="muted">{{startDate}} – {{endDate}}</p>
+    {{#location}}<p class="muted">Location: {{location}}</p>{{/location}}
+    {{#price}}<p class="muted">Price: {{price}}</p>{{/price}}
+    <p class="muted">Next: {{nextSession}} &nbsp;·&nbsp; {{sessionsCount}} sessions</p>
+    <a class="btn primary" href="/courses/{{id}}">View &amp; Book</a>
   </article>
   {{/courses}}
-
   {{^courses}}
-    <p>No courses match your filters.</p>
+  <p class="muted">No courses match your filters.</p>
   {{/courses}}
 </div>
 

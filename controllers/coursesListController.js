@@ -51,7 +51,7 @@ export const coursesListPage = async (req, res, next) => {
       courses = courses.filter(
         (c) =>
           c.title?.toLowerCase().includes(needle) ||
-          c.description?.toLowerCase().includes(needle)
+          c.description?.toLowerCase().includes(needle),
       );
     }
 
@@ -91,8 +91,10 @@ export const coursesListPage = async (req, res, next) => {
           nextSession: first ? fmtDateTime(first.startDateTime) : "TBA",
           sessionsCount: sessions.length,
           description: c.description,
+          location: c.location || "",
+          price: c.price || "",
         };
-      })
+      }),
     );
 
     // Build pagination view model
@@ -126,7 +128,7 @@ export const coursesListPage = async (req, res, next) => {
 // Helper to preserve current query params while changing page
 function buildLink(req, page, pageSize) {
   const url = new URL(
-    `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`
+    `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`,
   );
   const params = new URLSearchParams(req.query);
   params.set("page", String(page));

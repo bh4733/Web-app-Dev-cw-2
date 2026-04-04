@@ -1,44 +1,85 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { UserModel } from "../models/userModel.js";
+import "../loadEnv.js";
 
 export const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const user = await UserModel.findByEmail(email);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).render("login", {
+    const username = req.body?.email;
+    const password = req.body?.password;
+
+    if (!username || !password) {
+      return res.status(400).render("login", { title: "Login" });
+    }
+
+    const entries = await UserModel.findByEmail(username);
+
+    if (!entries || entries.length === 0) {
+      console.log("User", username, "not found");
+      return res.render("register", { title: "Register" });
+    }
+
+    const userRecord = entries;
+    if (!userRecord || typeof userRecord.password !== "string") {
+      console.warn(`Malformed user record for ${username}:`, userRecord);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    const hashedPassword = userRecord.password;
+    if (!hashedPassword) {
+      console.warn(`No password hash stored for user ${username}`);
+      return res.status(403).render("login", { title: "Login" });
+    }
+
+    const isValid = await bcrypt.compare(password, hashedPassword);
+    if (!isValid) {
+      return res.status(403).render("login", {
         title: "Login",
         error: "Invalid email or password.",
-        values: { email },
+        values: { email: username },
       });
     }
-    const token = jwt.sign(
-      { email: user.email, name: user.name },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1d" },
-    );
-    res.cookie("token", token, {
+
+    const secret = process.env.ACCESS_TOKEN_SECRET;
+    if (!secret) {
+      console.error("ACCESS_TOKEN_SECRET is not set");
+      return res.status(500).send("Server misconfiguration");
+    }
+
+    // Create JWT payload and token (expires in 5 minutes)
+    const payload = { username };
+    const accessToken = jwt.sign(payload, secret, { expiresIn: 300 });
+
+    // Set cookie with secure defaults
+    res.cookie("jwt", accessToken, {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 300 * 1000, // 5 minutes
     });
-    next();
+
+    return next();
   } catch (err) {
-    next(err);
+    console.error("Login error:", err);
+    return res.status(500).send("Internal Server Error");
   }
 };
 
 export const verify = (req, res, next) => {
-  const token = req.cookies?.token;
-  if (!token) return res.redirect("/login");
+  const accessToken = req.cookies?.jwt;
+
+  if (!accessToken) {
+    return res.status(403).send();
+  }
+
   try {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    next();
-  } catch {
-    res.clearCookie("token");
-    res.redirect("/login");
+    const payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+    // attachUser already populates req.user from the DB; only set from payload as fallback
+    if (!req.user) req.user = payload;
+    return next();
+  } catch (e) {
+    // Token invalid/expired
+    return res.status(401).send();
   }
 };
 

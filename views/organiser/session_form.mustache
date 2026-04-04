@@ -1,45 +1,47 @@
 {{> head}}
 {{> header}}
 
-<h1>{{title}}</h1>
-<p class="muted">Course: {{course.title}}</p>
+<div style="max-width:480px">
+  <h1>{{title}}</h1>
+  <p class="muted">Course: <strong>{{course.title}}</strong></p>
 
-{{#errors}}
-<div class="alert error" role="alert">
-  <ul>
-    {{#list}}
-    <li>{{.}}</li>
-    {{/list}}
-  </ul>
+  {{#errors}}
+  <div class="alert error" role="alert">
+    <ul>
+      {{#list}}
+      <li>{{.}}</li>
+      {{/list}}
+    </ul>
+  </div>
+  {{/errors}}
+
+  {{#editing}}
+  <form method="post" action="/organiser/sessions/{{session.id}}/edit">
+  {{/editing}}
+  {{^editing}}
+  <form method="post" action="/organiser/courses/{{course.id}}/sessions/new">
+  {{/editing}}
+
+    <div class="form-group">
+      <label for="startDateTime">Start date &amp; time</label>
+      <input type="datetime-local" id="startDateTime" name="startDateTime" value="{{session.startDateTime}}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="endDateTime">End date &amp; time</label>
+      <input type="datetime-local" id="endDateTime" name="endDateTime" value="{{session.endDateTime}}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="capacity">Capacity</label>
+      <input type="number" id="capacity" name="capacity" value="{{session.capacity}}" min="1" required />
+    </div>
+
+    <div class="actions">
+      <input type="submit" class="btn primary" value="{{#editing}}Save Changes{{/editing}}{{^editing}}Add Session{{/editing}}" />
+      <a class="btn" href="/organiser/courses/{{course.id}}/sessions">Cancel</a>
+    </div>
+  </form>
 </div>
-{{/errors}}
-
-{{#editing}}
-<form method="post" action="/organiser/sessions/{{session.id}}/edit">
-{{/editing}}
-{{^editing}}
-<form method="post" action="/organiser/courses/{{course.id}}/sessions/new">
-{{/editing}}
-
-  <div class="form-group">
-    <label for="startDateTime">Start Date &amp; Time</label>
-    <input type="datetime-local" class="form-control" id="startDateTime" name="startDateTime" value="{{session.startDateTime}}" required />
-  </div>
-
-  <div class="form-group">
-    <label for="endDateTime">End Date &amp; Time</label>
-    <input type="datetime-local" class="form-control" id="endDateTime" name="endDateTime" value="{{session.endDateTime}}" required />
-  </div>
-
-  <div class="form-group">
-    <label for="capacity">Capacity</label>
-    <input type="number" class="form-control" id="capacity" name="capacity" value="{{session.capacity}}" min="1" required />
-  </div>
-
-  <div class="form-group">
-    <input type="submit" class="btn btn-primary" value="{{#editing}}Save Changes{{/editing}}{{^editing}}Add Session{{/editing}}" />
-    <a href="/organiser/courses/{{course.id}}/sessions">Cancel</a>
-  </div>
-</form>
 
 {{> footer}}

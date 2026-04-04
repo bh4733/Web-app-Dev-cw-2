@@ -1,10 +1,13 @@
 {{> head}}
 {{> header}}
 
-<h1>{{title}}</h1>
-<p><a href="/organiser/courses">← Back to courses</a></p>
-
-<a class="btn primary" href="/organiser/courses/{{course.id}}/sessions/new">+ Add Session</a>
+<div class="section-header">
+  <div>
+    <h1>{{title}}</h1>
+    <p class="muted"><a href="/organiser/courses">Back to courses</a></p>
+  </div>
+  <a class="btn primary" href="/organiser/courses/{{course.id}}/sessions/new">+ Add Session</a>
+</div>
 
 <table class="table">
   <thead>
@@ -23,8 +26,8 @@
       <td>{{end}}</td>
       <td>{{capacity}}</td>
       <td>{{booked}}</td>
-      <td>
-        <a href="/organiser/sessions/{{id}}/edit">Edit</a> &nbsp;
+      <td style="white-space:nowrap">
+        <a class="btn" href="/organiser/sessions/{{id}}/edit">Edit</a>
         <form method="post" action="/organiser/sessions/{{id}}/delete" style="display:inline" onsubmit="return confirm('Delete this session?')">
           <button class="btn btn-danger" type="submit">Delete</button>
         </form>
@@ -32,7 +35,7 @@
     </tr>
     {{/sessions}}
     {{^sessions}}
-    <tr><td colspan="5" class="muted">No sessions yet.</td></tr>
+    <tr><td colspan="5" class="muted" style="text-align:center;padding:1.5rem">No sessions yet.</td></tr>
     {{/sessions}}
   </tbody>
 </table>

@@ -1,20 +1,16 @@
-// index.js
+import "./loadEnv.js";
 import express from "express";
 import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
 import mustacheExpress from "mustache-express";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// import authRoutes from './routes/auth.js';
 import courseRoutes from "./routes/courses.js";
 import sessionRoutes from "./routes/sessions.js";
 import bookingRoutes from "./routes/bookings.js";
 import viewRoutes from "./routes/views.js";
-import { attachDemoUser } from "./middlewares/demoUser.js";
+import { attachUser } from "./middleware/attachUser.js";
 import { initDb } from "./models/_db.js";
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,8 +33,8 @@ app.use(cookieParser());
 // Static
 app.use("/static", express.static(path.join(__dirname, "public")));
 
-// Demo user
-app.use(attachDemoUser);
+// Attach authenticated user to req and res.locals
+app.use(attachUser);
 
 // Health
 app.get("/health", (req, res) => res.json({ ok: true }));

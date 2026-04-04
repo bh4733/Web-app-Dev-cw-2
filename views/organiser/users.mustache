@@ -25,15 +25,20 @@
   <tbody>
     {{#users}}
     <tr>
-      <td>{{name}}</td>
+      <td><strong>{{name}}</strong></td>
       <td>{{email}}</td>
-      <td>{{role}}</td>
       <td>
+        <span class="badge"
+          style="background:{{#isOrganiser}}#ede9fe{{/isOrganiser}}{{^isOrganiser}}#f1f5f9{{/isOrganiser}};
+                 color:{{#isOrganiser}}#5b21b6{{/isOrganiser}}{{^isOrganiser}}#475569{{/isOrganiser}}">
+          {{role}}
+        </span>
+      </td>
+      <td style="white-space:nowrap">
         {{#isStudent}}
         <form method="post" action="/organiser/users/{{id}}/make-organiser" style="display:inline">
           <button class="btn" type="submit">Make Organiser</button>
         </form>
-        &nbsp;
         {{/isStudent}}
         <form method="post" action="/organiser/users/{{id}}/delete" style="display:inline" onsubmit="return confirm('Remove this user?')">
           <button class="btn btn-danger" type="submit">Remove</button>
@@ -42,30 +47,32 @@
     </tr>
     {{/users}}
     {{^users}}
-    <tr><td colspan="4" class="muted">No users found.</td></tr>
+    <tr><td colspan="4" class="muted" style="text-align:center;padding:1.5rem">No users found.</td></tr>
     {{/users}}
   </tbody>
 </table>
 
-<hr />
+<hr style="margin:2rem 0;border:none;border-top:1px solid var(--line)">
 
-<h2>Add Organiser</h2>
-<form method="post" action="/organiser/users/new">
-  <div class="form-group">
-    <label for="name">Full Name</label>
-    <input type="text" class="form-control" id="name" name="name" value="{{values.name}}" required />
-  </div>
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" class="form-control" id="email" name="email" value="{{values.email}}" required />
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" name="password" required />
-  </div>
-  <div class="form-group">
-    <input type="submit" class="btn btn-primary" value="Add Organiser" />
-  </div>
-</form>
+<div style="max-width:420px">
+  <h2>Add Organiser</h2>
+  <form method="post" action="/organiser/users/new">
+    <div class="form-group">
+      <label for="name">Full name</label>
+      <input type="text" id="name" name="name" value="{{values.name}}" required />
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" value="{{values.email}}" required />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+    </div>
+    <div class="actions">
+      <input type="submit" class="btn primary" value="Add Organiser" />
+    </div>
+  </form>
+</div>
 
 {{> footer}}

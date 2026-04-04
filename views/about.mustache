@@ -4,7 +4,7 @@
 <section class="about-section">
   <h1>About Us</h1>
   <p>
-   Welcome to yoga studio. A place for yog classes at any difficulty level! 
+    Welcome to Yoga Studio — a place for yoga classes at every level, from first-timers to experienced practitioners.
   </p>
 </section>
 
@@ -13,14 +13,19 @@
   {{#courses}}
   <article class="about-class">
     <h3>{{title}}</h3>
-    <p class="muted">Level: {{level}} &nbsp;|&nbsp; Type: {{type}} {{#allowDropIn}}&nbsp;|&nbsp; Drop-in welcome{{/allowDropIn}}</p>
-    <p>{{description}}</p>
+    <p>
+      <span class="badge badge-{{level}}">{{level}}</span>
+      {{#allowDropIn}}<span class="badge" style="background:#e0f2fe;color:#075985">Drop-in welcome</span>{{/allowDropIn}}
+    </p>
+    <p class="muted">{{description}}</p>
+    {{#location}}<p class="muted">Location: {{location}}</p>{{/location}}
+    {{#price}}<p class="muted">Price: {{price}}</p>{{/price}}
   </article>
   {{/courses}}
   {{^courses}}
-  <p>Classes coming soon — check back shortly.</p>
+  <p class="muted">Classes coming soon — check back shortly.</p>
   {{/courses}}
-  <p><a href="/courses" class="btn btn-primary">View schedule &amp; book</a></p>
+  <p><a href="/courses" class="btn primary">View schedule &amp; book</a></p>
 </section>
 
 <section class="about-section">
@@ -34,7 +39,7 @@
   </address>
   <p>
     <strong>Phone:</strong> 01273 000 000<br>
-    <strong>Email:</strong> hello@yogastudio.example<br>
+    <strong>Email:</strong> hello@yogastudio.example
   </p>
 </section>
 

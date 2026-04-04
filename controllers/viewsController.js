@@ -36,6 +36,8 @@ export const aboutPage = async (req, res, next) => {
         type: c.type,
         allowDropIn: c.allowDropIn,
         description: c.description,
+        location: c.location,
+        price: c.price,
       })),
     });
   } catch (err) {
@@ -61,8 +63,10 @@ export const homePage = async (req, res, next) => {
           nextSession: nextSession ? fmtDate(nextSession.startDateTime) : "TBA",
           sessionsCount: sessions.length,
           description: c.description,
+          location: c.location,
+          price: c.price,
         };
-      })
+      }),
     );
     res.render("home", { title: "Yoga Courses", courses: cards });
   } catch (err) {
@@ -100,6 +104,8 @@ export const courseDetailPage = async (req, res, next) => {
         startDate: course.startDate ? fmtDateOnly(course.startDate) : "",
         endDate: course.endDate ? fmtDateOnly(course.endDate) : "",
         description: course.description,
+        location: course.location,
+        price: course.price,
       },
       sessions: rows,
     });
@@ -135,6 +141,8 @@ export const bookCoursePage = async (req, res, next) => {
         startDate: course.startDate ? fmtDateOnly(course.startDate) : "",
         endDate: course.endDate ? fmtDateOnly(course.endDate) : "",
         description: course.description,
+        location: course.location,
+        price: course.price,
       },
       sessions: rows,
       sessionsCount: rows.length,
@@ -202,8 +210,9 @@ export const postLogin = (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token");
-  res.redirect("/login");
+  res.clearCookie("jwt")
+    .status(200)
+    .redirect("/");
 };
 
 export const RegisterPage = (req, res) => {
@@ -218,7 +227,8 @@ export const postRegister = async (req, res, next) => {
     if (!name || !name.trim()) errors.push("Full name is required.");
     if (!email || !email.trim()) errors.push("Email is required.");
     if (!password) errors.push("Password is required.");
-    if (password && password.length < 6) errors.push("Password must be at least 6 characters.");
+    if (password && password.length < 6)
+      errors.push("Password must be at least 6 characters.");
     if (password !== confirmPassword) errors.push("Passwords do not match.");
 
     if (errors.length) {
@@ -239,11 +249,14 @@ export const postRegister = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    await UserModel.create({ name: name.trim(), email: email.trim(), password: hashedPassword, role: "student" });
+    await UserModel.create({
+      name: name.trim(),
+      email: email.trim(),
+      password: hashedPassword,
+      role: "student",
+    });
     res.redirect("/login");
   } catch (err) {
     next(err);
   }
 };
-
-

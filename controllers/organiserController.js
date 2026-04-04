@@ -61,7 +61,7 @@ export const newCourseForm = (req, res) => {
 // POST /organiser/courses/new
 export const createCourse = async (req, res, next) => {
   try {
-    const { title, level, type, allowDropIn, startDate, endDate, description } = req.body;
+    const { title, level, type, allowDropIn, startDate, endDate, description, location, price } = req.body;
     const errors = [];
     if (!title || !title.trim()) errors.push("Title is required.");
     if (!level) errors.push("Level is required.");
@@ -83,6 +83,8 @@ export const createCourse = async (req, res, next) => {
       startDate: startDate || null,
       endDate: endDate || null,
       description: description ? description.trim() : "",
+      location: location ? location.trim() : "",
+      price: price ? price.trim() : "",
     });
     res.redirect("/organiser/courses");
   } catch (err) {
@@ -108,6 +110,8 @@ export const editCourseForm = async (req, res, next) => {
         startDate: course.startDate ? course.startDate.slice(0, 10) : "",
         endDate: course.endDate ? course.endDate.slice(0, 10) : "",
         description: course.description,
+        location: course.location || "",
+        price: course.price || "",
         levelBeginner: course.level === "beginner",
         levelIntermediate: course.level === "intermediate",
         levelAdvanced: course.level === "advanced",
@@ -123,7 +127,7 @@ export const editCourseForm = async (req, res, next) => {
 // POST /organiser/courses/:id/edit
 export const updateCourse = async (req, res, next) => {
   try {
-    const { title, level, type, allowDropIn, startDate, endDate, description } = req.body;
+    const { title, level, type, allowDropIn, startDate, endDate, description, location, price } = req.body;
     const errors = [];
     if (!title || !title.trim()) errors.push("Title is required.");
     if (!level) errors.push("Level is required.");
@@ -146,6 +150,8 @@ export const updateCourse = async (req, res, next) => {
       startDate: startDate || null,
       endDate: endDate || null,
       description: description ? description.trim() : "",
+      location: location ? location.trim() : "",
+      price: price ? price.trim() : "",
     });
     res.redirect("/organiser/courses");
   } catch (err) {

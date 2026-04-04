@@ -1,27 +1,28 @@
 
 {{> head}}
 {{> header}}
-<main class="wrap">
-<h1>Upcoming Courses</h1>
 
+<h1>Upcoming Courses</h1>
 
 <div class="cards">
   {{#courses}}
   <article class="card">
     <h2><a href="/courses/{{id}}">{{title}}</a></h2>
-    <p class="muted">
-      Level: {{level}} • Type: {{type}} {{#allowDropIn}}• Drop-in OK{{/allowDropIn}}
+    <p>
+      <span class="badge badge-{{level}}">{{level}}</span>
+      {{#allowDropIn}}<span class="badge" style="background:#e0f2fe;color:#075985">Drop-in OK</span>{{/allowDropIn}}
     </p>
-    <p>{{description}}</p>
-    <p class="muted">Dates: {{startDate}}  {{endDate}}</p>
-    <p class="muted">Next session: {{nextSession}} • Sessions: {{sessionsCount}}</p>
-    <p><a href="/courses/{{id}}">View &amp; Book</a></p>
+    <p class="muted">{{description}}</p>
+    <p class="muted">{{startDate}} – {{endDate}}</p>
+    {{#location}}<p class="muted">Location: {{location}}</p>{{/location}}
+    {{#price}}<p class="muted">Price: {{price}}</p>{{/price}}
+    <p class="muted">Next: {{nextSession}} | {{sessionsCount}} sessions</p>
+    <a class="btn primary" href="/courses/{{id}}">View/Book</a>
   </article>
   {{/courses}}
-
   {{^courses}}
-    <p>No courses available yet.</p>
+  <p class="muted">No courses available yet.</p>
   {{/courses}}
 </div>
-</main>
+
 {{> footer}}

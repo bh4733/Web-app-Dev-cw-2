@@ -72,6 +72,8 @@ async function createWeekendWorkshop() {
     instructorId: instructor._id,
     sessionIds: [],
     description: "Two days of breath, posture alignment, and meditation.",
+    location: "Studio A",
+    price: "£40",
   });
 
   const base = new Date("2026-01-10T09:00:00"); // Sat 9am
@@ -110,6 +112,8 @@ async function createWeeklyBlock() {
     instructorId: instructor._id,
     sessionIds: [],
     description: "Progressive sequences building strength and flexibility.",
+    price: "£60",
+    location: "Studio B",
   });
 
   const first = new Date("2026-02-02T18:30:00"); // Monday 6:30pm
@@ -177,13 +181,13 @@ async function run() {
     "Workshop course ID   :",
     w.course._id,
     "(sessions:",
-    w.sessions.length + ")"
+    w.sessions.length + ")",
   );
   console.log(
     "Weekly block course ID:",
     b.course._id,
     "(sessions:",
-    b.sessions.length + ")"
+    b.sessions.length + ")",
   );
 }
 

@@ -1,8 +1,10 @@
 {{> head}}
 {{> header}}
 
-<h1>Manage Courses</h1>
-<a class="btn primary" href="/organiser/courses/new">+ Add Course</a>
+<div class="section-header">
+  <h1>Manage Courses</h1>
+  <a class="btn primary" href="/organiser/courses/new">+ Add Course</a>
+</div>
 
 <table class="table">
   <thead>
@@ -10,6 +12,8 @@
       <th>Title</th>
       <th>Level</th>
       <th>Type</th>
+      <th>Location</th>
+      <th>Price</th>
       <th>Drop-in</th>
       <th>Sessions</th>
       <th></th>
@@ -18,15 +22,17 @@
   <tbody>
     {{#courses}}
     <tr>
-      <td>{{title}}</td>
-      <td>{{level}}</td>
+      <td><strong>{{title}}</strong></td>
+      <td><span class="badge badge-{{level}}">{{level}}</span></td>
       <td>{{type}}</td>
+      <td>{{#location}}{{location}}{{/location}}{{^location}}<span class="muted">—</span>{{/location}}</td>
+      <td>{{#price}}{{price}}{{/price}}{{^price}}<span class="muted">—</span>{{/price}}</td>
       <td>{{#allowDropIn}}Yes{{/allowDropIn}}{{^allowDropIn}}No{{/allowDropIn}}</td>
       <td>{{sessionsCount}}</td>
-      <td>
-        <a href="/organiser/courses/{{id}}/sessions">Sessions</a> &nbsp;
-        <a href="/organiser/courses/{{id}}/classlist">Class List</a> &nbsp;
-        <a href="/organiser/courses/{{id}}/edit">Edit</a> &nbsp;
+      <td style="white-space:nowrap">
+        <a class="btn" href="/organiser/courses/{{id}}/sessions">Sessions</a>
+        <a class="btn" href="/organiser/courses/{{id}}/classlist">Class List</a>
+        <a class="btn" href="/organiser/courses/{{id}}/edit">Edit</a>
         <form method="post" action="/organiser/courses/{{id}}/delete" style="display:inline" onsubmit="return confirm('Delete this course and all its sessions?')">
           <button class="btn btn-danger" type="submit">Delete</button>
         </form>
@@ -34,7 +40,7 @@
     </tr>
     {{/courses}}
     {{^courses}}
-    <tr><td colspan="6" class="muted">No courses yet.</td></tr>
+    <tr><td colspan="8" class="muted" style="text-align:center;padding:1.5rem">No courses yet.</td></tr>
     {{/courses}}
   </tbody>
 </table>
