@@ -1,4 +1,3 @@
-// controllers/bookingController.js
 import {
   bookCourseForUser,
   bookSessionForUser,

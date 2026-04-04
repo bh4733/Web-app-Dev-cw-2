@@ -1,4 +1,3 @@
-// models/courseModel.js
 import { coursesDb } from "./_db.js";
 
 export const CourseModel = {

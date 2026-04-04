@@ -1,4 +1,3 @@
-// models/bookingModel.js
 import { bookingsDb } from "./_db.js";
 
 export const BookingModel = {
@@ -19,6 +18,8 @@ export const BookingModel = {
     return this.findById(id);
   },
   async listByCourse(courseId) {
-    return bookingsDb.find({ courseId, status: { $ne: "CANCELLED" } }).sort({ createdAt: -1 });
+    return bookingsDb
+      .find({ courseId, status: { $ne: "CANCELLED" } })
+      .sort({ createdAt: -1 });
   },
 };

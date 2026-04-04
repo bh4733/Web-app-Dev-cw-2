@@ -1,4 +1,3 @@
-// controllers/viewsController.js
 import { CourseModel } from "../models/courseModel.js";
 import { SessionModel } from "../models/sessionModel.js";
 import {
@@ -210,9 +209,7 @@ export const postLogin = (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("jwt")
-    .status(200)
-    .redirect("/");
+  res.clearCookie("jwt").status(200).redirect("/");
 };
 
 export const RegisterPage = (req, res) => {

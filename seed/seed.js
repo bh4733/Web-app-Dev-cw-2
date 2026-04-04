@@ -1,4 +1,3 @@
-// seed/seed.js
 import {
   initDb,
   usersDb,

@@ -1,4 +1,3 @@
-// controllers/organiserController.js
 import { CourseModel } from "../models/courseModel.js";
 import { SessionModel } from "../models/sessionModel.js";
 import { BookingModel } from "../models/bookingModel.js";
@@ -45,7 +44,7 @@ export const courseList = async (req, res, next) => {
           allowDropIn: c.allowDropIn,
           sessionsCount: sessions.length,
         };
-      })
+      }),
     );
     res.render("organiser/courses", { title: "Manage Courses", courses: rows });
   } catch (err) {
@@ -61,7 +60,17 @@ export const newCourseForm = (req, res) => {
 // POST /organiser/courses/new
 export const createCourse = async (req, res, next) => {
   try {
-    const { title, level, type, allowDropIn, startDate, endDate, description, location, price } = req.body;
+    const {
+      title,
+      level,
+      type,
+      allowDropIn,
+      startDate,
+      endDate,
+      description,
+      location,
+      price,
+    } = req.body;
     const errors = [];
     if (!title || !title.trim()) errors.push("Title is required.");
     if (!level) errors.push("Level is required.");
@@ -97,7 +106,9 @@ export const editCourseForm = async (req, res, next) => {
   try {
     const course = await CourseModel.findById(req.params.id);
     if (!course)
-      return res.status(404).render("error", { title: "Not found", message: "Course not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Course not found" });
     res.render("organiser/course_form", {
       title: "Edit Course",
       editing: true,
@@ -127,7 +138,17 @@ export const editCourseForm = async (req, res, next) => {
 // POST /organiser/courses/:id/edit
 export const updateCourse = async (req, res, next) => {
   try {
-    const { title, level, type, allowDropIn, startDate, endDate, description, location, price } = req.body;
+    const {
+      title,
+      level,
+      type,
+      allowDropIn,
+      startDate,
+      endDate,
+      description,
+      location,
+      price,
+    } = req.body;
     const errors = [];
     if (!title || !title.trim()) errors.push("Title is required.");
     if (!level) errors.push("Level is required.");
@@ -175,7 +196,9 @@ export const sessionList = async (req, res, next) => {
   try {
     const course = await CourseModel.findById(req.params.id);
     if (!course)
-      return res.status(404).render("error", { title: "Not found", message: "Course not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Course not found" });
     const sessions = await SessionModel.listByCourse(req.params.id);
     const rows = sessions.map((s) => ({
       id: s._id,
@@ -199,7 +222,9 @@ export const newSessionForm = async (req, res, next) => {
   try {
     const course = await CourseModel.findById(req.params.id);
     if (!course)
-      return res.status(404).render("error", { title: "Not found", message: "Course not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Course not found" });
     res.render("organiser/session_form", {
       title: "Add Session",
       course: { id: course._id, title: course.title },
@@ -215,7 +240,9 @@ export const createSession = async (req, res, next) => {
   try {
     const course = await CourseModel.findById(req.params.id);
     if (!course)
-      return res.status(404).render("error", { title: "Not found", message: "Course not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Course not found" });
 
     const { startDateTime, endDateTime, capacity } = req.body;
     const errors = [];
@@ -251,7 +278,9 @@ export const editSessionForm = async (req, res, next) => {
   try {
     const session = await SessionModel.findById(req.params.id);
     if (!session)
-      return res.status(404).render("error", { title: "Not found", message: "Session not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Session not found" });
     const course = await CourseModel.findById(session.courseId);
     res.render("organiser/session_form", {
       title: "Edit Session",
@@ -259,8 +288,12 @@ export const editSessionForm = async (req, res, next) => {
       course: { id: course._id, title: course.title },
       session: {
         id: session._id,
-        startDateTime: session.startDateTime ? session.startDateTime.slice(0, 16) : "",
-        endDateTime: session.endDateTime ? session.endDateTime.slice(0, 16) : "",
+        startDateTime: session.startDateTime
+          ? session.startDateTime.slice(0, 16)
+          : "",
+        endDateTime: session.endDateTime
+          ? session.endDateTime.slice(0, 16)
+          : "",
         capacity: session.capacity,
       },
     });
@@ -274,7 +307,9 @@ export const updateSession = async (req, res, next) => {
   try {
     const session = await SessionModel.findById(req.params.id);
     if (!session)
-      return res.status(404).render("error", { title: "Not found", message: "Session not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Session not found" });
 
     const { startDateTime, endDateTime, capacity } = req.body;
     const errors = [];
@@ -310,7 +345,9 @@ export const deleteSession = async (req, res, next) => {
   try {
     const session = await SessionModel.findById(req.params.id);
     if (!session)
-      return res.status(404).render("error", { title: "Not found", message: "Session not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Session not found" });
     const courseId = session.courseId;
     await SessionModel.delete(req.params.id);
     res.redirect(`/organiser/courses/${courseId}/sessions`);
@@ -324,7 +361,9 @@ export const classList = async (req, res, next) => {
   try {
     const course = await CourseModel.findById(req.params.id);
     if (!course)
-      return res.status(404).render("error", { title: "Not found", message: "Course not found" });
+      return res
+        .status(404)
+        .render("error", { title: "Not found", message: "Course not found" });
 
     const bookings = await BookingModel.listByCourse(req.params.id);
     const participants = await Promise.all(
@@ -337,7 +376,7 @@ export const classList = async (req, res, next) => {
           status: b.status,
           bookedAt: b.createdAt ? fmtDate(b.createdAt) : "",
         };
-      })
+      }),
     );
 
     res.render("organiser/classlist", {
@@ -376,15 +415,20 @@ export const createOrganiser = async (req, res, next) => {
     const errors = [];
     if (!name || !name.trim()) errors.push("Full name is required.");
     if (!email || !email.trim()) errors.push("Email is required.");
-    if (!password || password.length < 6) errors.push("Password must be at least 6 characters.");
+    if (!password || password.length < 6)
+      errors.push("Password must be at least 6 characters.");
 
     if (errors.length) {
       const users = await UserModel.list();
       return res.status(400).render("organiser/users", {
         title: "Manage Users",
         users: users.map((u) => ({
-          id: u._id, name: u.name, email: u.email, role: u.role,
-          isOrganiser: u.role === "organiser", isStudent: u.role === "student",
+          id: u._id,
+          name: u.name,
+          email: u.email,
+          role: u.role,
+          isOrganiser: u.role === "organiser",
+          isStudent: u.role === "student",
         })),
         errors: { list: errors },
         values: { name, email },
@@ -397,8 +441,12 @@ export const createOrganiser = async (req, res, next) => {
       return res.status(400).render("organiser/users", {
         title: "Manage Users",
         users: users.map((u) => ({
-          id: u._id, name: u.name, email: u.email, role: u.role,
-          isOrganiser: u.role === "organiser", isStudent: u.role === "student",
+          id: u._id,
+          name: u.name,
+          email: u.email,
+          role: u.role,
+          isOrganiser: u.role === "organiser",
+          isStudent: u.role === "student",
         })),
         errors: { list: ["An account with that email already exists."] },
         values: { name, email },
@@ -406,7 +454,12 @@ export const createOrganiser = async (req, res, next) => {
     }
 
     const hashed = await bcrypt.hash(password, 12);
-    await UserModel.create({ name: name.trim(), email: email.trim(), password: hashed, role: "organiser" });
+    await UserModel.create({
+      name: name.trim(),
+      email: email.trim(),
+      password: hashed,
+      role: "organiser",
+    });
     res.redirect("/organiser/users");
   } catch (err) {
     next(err);
@@ -421,8 +474,12 @@ export const deleteUser = async (req, res, next) => {
       return res.status(400).render("organiser/users", {
         title: "Manage Users",
         users: users.map((u) => ({
-          id: u._id, name: u.name, email: u.email, role: u.role,
-          isOrganiser: u.role === "organiser", isStudent: u.role === "student",
+          id: u._id,
+          name: u.name,
+          email: u.email,
+          role: u.role,
+          isOrganiser: u.role === "organiser",
+          isStudent: u.role === "student",
         })),
         errors: { list: ["You cannot delete your own account."] },
       });

@@ -1,4 +1,3 @@
-// routes/views.js
 import { Router } from "express";
 import {
   aboutPage,
@@ -59,19 +58,79 @@ router.get("/organiser", verify, requireOrganiser, dashboard);
 router.get("/organiser/courses", verify, requireOrganiser, courseList);
 router.get("/organiser/courses/new", verify, requireOrganiser, newCourseForm);
 router.post("/organiser/courses/new", verify, requireOrganiser, createCourse);
-router.get("/organiser/courses/:id/edit", verify, requireOrganiser, editCourseForm);
-router.post("/organiser/courses/:id/edit", verify, requireOrganiser, updateCourse);
-router.post("/organiser/courses/:id/delete", verify, requireOrganiser, deleteCourse);
-router.get("/organiser/courses/:id/sessions", verify, requireOrganiser, sessionList);
-router.get("/organiser/courses/:id/sessions/new", verify, requireOrganiser, newSessionForm);
-router.post("/organiser/courses/:id/sessions/new", verify, requireOrganiser, createSession);
-router.get("/organiser/sessions/:id/edit", verify, requireOrganiser, editSessionForm);
-router.post("/organiser/sessions/:id/edit", verify, requireOrganiser, updateSession);
-router.post("/organiser/sessions/:id/delete", verify, requireOrganiser, deleteSession);
-router.get("/organiser/courses/:id/classlist", verify, requireOrganiser, classList);
+router.get(
+  "/organiser/courses/:id/edit",
+  verify,
+  requireOrganiser,
+  editCourseForm,
+);
+router.post(
+  "/organiser/courses/:id/edit",
+  verify,
+  requireOrganiser,
+  updateCourse,
+);
+router.post(
+  "/organiser/courses/:id/delete",
+  verify,
+  requireOrganiser,
+  deleteCourse,
+);
+router.get(
+  "/organiser/courses/:id/sessions",
+  verify,
+  requireOrganiser,
+  sessionList,
+);
+router.get(
+  "/organiser/courses/:id/sessions/new",
+  verify,
+  requireOrganiser,
+  newSessionForm,
+);
+router.post(
+  "/organiser/courses/:id/sessions/new",
+  verify,
+  requireOrganiser,
+  createSession,
+);
+router.get(
+  "/organiser/sessions/:id/edit",
+  verify,
+  requireOrganiser,
+  editSessionForm,
+);
+router.post(
+  "/organiser/sessions/:id/edit",
+  verify,
+  requireOrganiser,
+  updateSession,
+);
+router.post(
+  "/organiser/sessions/:id/delete",
+  verify,
+  requireOrganiser,
+  deleteSession,
+);
+router.get(
+  "/organiser/courses/:id/classlist",
+  verify,
+  requireOrganiser,
+  classList,
+);
 router.get("/organiser/users", verify, requireOrganiser, userList);
 router.post("/organiser/users/new", verify, requireOrganiser, createOrganiser);
-router.post("/organiser/users/:id/delete", verify, requireOrganiser, deleteUser);
-router.post("/organiser/users/:id/make-organiser", verify, requireOrganiser, makeOrganiser);
+router.post(
+  "/organiser/users/:id/delete",
+  verify,
+  requireOrganiser,
+  deleteUser,
+);
+router.post(
+  "/organiser/users/:id/make-organiser",
+  verify,
+  requireOrganiser,
+  makeOrganiser,
+);
 
 export default router;
