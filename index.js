@@ -17,7 +17,6 @@ const __dirname = path.dirname(__filename);
 
 export const app = express();
 
-// View engine (Mustache)
 app.engine(
   "mustache",
   mustacheExpress(path.join(__dirname, "views", "partials"), ".mustache"),
@@ -25,21 +24,16 @@ app.engine(
 app.set("view engine", "mustache");
 app.set("views", path.join(__dirname, "views"));
 
-// Body parsing
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Static
 app.use("/static", express.static(path.join(__dirname, "public")));
 
-// Attach authenticated user to req and res.locals
 app.use(attachUser);
 
-// Health
 app.get("/health", (req, res) => res.json({ ok: true }));
 
-// SSR view routes
 app.use("/", viewRoutes);
 
 // JSON API routes
@@ -47,7 +41,6 @@ app.use("/bookings", bookingRoutes);
 app.use("/courses", courseRoutes);
 app.use("/sessions", sessionRoutes);
 
-// Errors
 export const not_found = (req, res) =>
   res.status(404).type("text/plain").send("404 Not found.");
 export const server_error = (err, req, res, next) => {

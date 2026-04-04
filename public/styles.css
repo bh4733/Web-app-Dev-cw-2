@@ -18,7 +18,6 @@
   --transition: 0.18s ease;
 }
 
-/* ── Reset & base ───────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -95,14 +94,12 @@ address {
   font-style: normal;
 }
 
-/* ── Layout ────────────────────────────────────────────────── */
 .wrap {
   max-width: 1040px;
   margin: 0 auto;
   padding: 0 1.25rem;
 }
 
-/* ── Header & nav ───────────────────────────────────────────── */
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
@@ -160,7 +157,6 @@ nav a:hover {
   color: var(--ink);
 }
 
-/* ── Footer ────────────────────────────────────────────────── */
 .site-footer {
   background: var(--surface);
   border-top: 1px solid var(--line);
@@ -171,7 +167,6 @@ nav a:hover {
   text-align: center;
 }
 
-/* ── Utility ────────────────────────────────────────────────── */
 .muted {
   color: var(--muted);
   font-size: 0.9rem;
@@ -187,7 +182,6 @@ nav a:hover {
   border: 0;
 }
 
-/* ── Buttons ────────────────────────────────────────────────── */
 .btn,
 button.btn,
 input[type="submit"].btn {
@@ -217,7 +211,6 @@ input[type="submit"].btn {
   text-decoration: none;
 }
 
-/* Primary */
 .btn.primary,
 .btn.btn-primary,
 input[type="submit"].btn-primary {
@@ -245,7 +238,6 @@ input[type="submit"].btn-primary:hover {
   color: #fff;
 }
 
-/* ── Forms ──────────────────────────────────────────────────── */
 .form-group,
 .field {
   display: flex;
@@ -337,7 +329,6 @@ legend {
   margin-top: 0.5rem;
 }
 
-/* ── Alerts ─────────────────────────────────────────────────── */
 .alert {
   padding: 0.9rem 1.1rem;
   border-radius: var(--radius-sm);
@@ -356,7 +347,6 @@ legend {
   margin-bottom: 0.2rem;
 }
 
-/* ── Cards ──────────────────────────────────────────────────── */
 .cards,
 .card-grid {
   display: grid;
@@ -398,7 +388,6 @@ legend {
   align-self: flex-start;
 }
 
-/* Level badge on cards */
 .badge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
@@ -420,7 +409,6 @@ legend {
   color: #991b1b;
 }
 
-/* ── Tables ─────────────────────────────────────────────────── */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -458,7 +446,6 @@ legend {
   margin: 0;
 }
 
-/* ── Filters ────────────────────────────────────────────────── */
 .filters {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -487,7 +474,6 @@ legend {
   display: contents;
 }
 
-/* ── Pagination ─────────────────────────────────────────────── */
 .pagination {
   display: flex;
   gap: 0.5rem;
@@ -497,7 +483,6 @@ legend {
   color: var(--muted);
 }
 
-/* ── Course detail (article) ────────────────────────────────── */
 article > h1 {
   margin-bottom: 0.35rem;
 }
@@ -515,7 +500,6 @@ article section h2 {
   padding-bottom: 0.4rem;
 }
 
-/* ── About page ─────────────────────────────────────────────── */
 .about-section {
   margin-bottom: 2.5rem;
 }
@@ -534,7 +518,6 @@ article section h2 {
   margin-bottom: 1rem;
 }
 
-/* ── Organiser section header ───────────────────────────────── */
 .section-header {
   display: flex;
   align-items: center;
@@ -545,50 +528,4 @@ article section h2 {
 }
 .section-header h1 {
   margin-bottom: 0;
-}
-
-/* ── Booking confirmation ───────────────────────────────────── */
-.kv {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0.35rem 1.25rem;
-  font-size: 0.95rem;
-}
-.kv dt {
-  font-weight: 600;
-  color: var(--ink-mid);
-}
-
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 640px) {
-  h1 {
-    font-size: 1.6rem;
-  }
-
-  .site-header .wrap {
-    gap: 0.75rem;
-  }
-  .user {
-    margin-left: 0;
-  }
-
-  .cards,
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .table {
-    font-size: 0.8rem;
-  }
-  .table th,
-  .table td {
-    padding: 0.5rem 0.6rem;
-  }
-
-  .filters form {
-    flex-direction: column;
-  }
-  .filters label {
-    min-width: 100%;
-  }
 }

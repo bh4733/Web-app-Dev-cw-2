@@ -53,7 +53,6 @@ router.get("/logout", logout);
 router.get("/register", RegisterPage);
 router.post("/register", postRegister);
 
-// Organiser routes (all require login + organiser role)
 router.get("/organiser", verify, requireOrganiser, dashboard);
 router.get("/organiser/courses", verify, requireOrganiser, courseList);
 router.get("/organiser/courses/new", verify, requireOrganiser, newCourseForm);

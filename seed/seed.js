@@ -14,14 +14,12 @@ import bcrypt from "bcryptjs";
 const iso = (d) => new Date(d).toISOString();
 
 async function wipeAll() {
-  // Remove all documents to guarantee a clean seed
   await Promise.all([
     usersDb.remove({}, { multi: true }),
     coursesDb.remove({}, { multi: true }),
     sessionsDb.remove({}, { multi: true }),
     bookingsDb.remove({}, { multi: true }),
   ]);
-  // Compact files so you’re not looking at stale data on disk
   await Promise.all([
     usersDb.persistence.compactDatafile(),
     coursesDb.persistence.compactDatafile(),
@@ -80,10 +78,10 @@ async function createWeekendWorkshop() {
     price: "£40",
   });
 
-  const base = new Date("2026-01-10T09:00:00"); // Sat 9am
+  const base = new Date("2026-01-10T09:00:00");
   const sessions = [];
   for (let i = 0; i < 5; i++) {
-    const start = new Date(base.getTime() + i * 2 * 60 * 60 * 1000); // every 2 hours
+    const start = new Date(base.getTime() + i * 2 * 60 * 60 * 1000);
     const end = new Date(start.getTime() + 60 * 60 * 1000);
     const s = await SessionModel.create({
       courseId: course._id,
@@ -122,7 +120,7 @@ async function createWeeklyBlock() {
     location: "Studio B",
   });
 
-  const first = new Date("2026-02-02T18:30:00"); // Monday 6:30pm
+  const first = new Date("2026-02-02T18:30:00");
   const sessions = [];
   for (let i = 0; i < 12; i++) {
     const start = new Date(first.getTime() + i * 7 * 24 * 60 * 60 * 1000);
@@ -156,7 +154,6 @@ async function createBookings(student, w, b) {
     await SessionModel.incrementBookedCount(s._id, 1);
   }
 
-  // Book the student onto the first session of the weekly block (drop-in)
   const dropInSession = b.sessions[0];
   await BookingModel.create({
     userId: student._id,
