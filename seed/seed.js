@@ -8,6 +8,7 @@ import {
 import { CourseModel } from "../models/courseModel.js";
 import { SessionModel } from "../models/sessionModel.js";
 import { UserModel } from "../models/userModel.js";
+import { BookingModel } from "../models/bookingModel.js";
 import bcrypt from "bcryptjs";
 
 const iso = (d) => new Date(d).toISOString();
@@ -29,25 +30,27 @@ async function wipeAll() {
   ]);
 }
 
-async function ensureDemoStudent() {
+async function seedStudent() {
   let student = await UserModel.findByEmail("fiona@student.local");
   if (!student) {
+    const password = await bcrypt.hash("student123", 12);
     student = await UserModel.create({
       name: "Fiona",
       email: "fiona@student.local",
+      password,
       role: "student",
     });
   }
   return student;
 }
 
-async function ensureDemoOrganiser() {
-  let organiser = await UserModel.findByEmail("admin@yoga.local");
+async function seedOrganiser() {
+  let organiser = await UserModel.findByEmail("maya@yoga.local");
   if (!organiser) {
     const password = await bcrypt.hash("organiser123", 12);
     organiser = await UserModel.create({
       name: "Admin",
-      email: "admin@yoga.local",
+      email: "Admin@yoga.local",
       password,
       role: "organiser",
     });
@@ -56,10 +59,12 @@ async function ensureDemoOrganiser() {
 }
 
 async function createWeekendWorkshop() {
-  const instructor = await UserModel.create({
+  const avaPassword = await bcrypt.hash("password", 12);
+  const organiser = await UserModel.create({
     name: "Ava",
     email: "ava@yoga.local",
-    role: "instructor",
+    password: avaPassword,
+    role: "organiser",
   });
   const course = await CourseModel.create({
     title: "Winter Mindfulness Workshop",
@@ -68,7 +73,7 @@ async function createWeekendWorkshop() {
     allowDropIn: false,
     startDate: "2026-01-10",
     endDate: "2026-01-11",
-    instructorId: instructor._id,
+    instructorId: organiser._id,
     sessionIds: [],
     description: "Two days of breath, posture alignment, and meditation.",
     location: "Studio A",
@@ -92,14 +97,16 @@ async function createWeekendWorkshop() {
   await CourseModel.update(course._id, {
     sessionIds: sessions.map((s) => s._id),
   });
-  return { course, sessions, instructor };
+  return { course, sessions, organiser };
 }
 
 async function createWeeklyBlock() {
-  const instructor = await UserModel.create({
+  const benPassword = await bcrypt.hash("password", 12);
+  const organiser = await UserModel.create({
     name: "Ben",
     email: "ben@yoga.local",
-    role: "instructor",
+    password: benPassword,
+    role: "organiser",
   });
   const course = await CourseModel.create({
     title: "12‑Week Vinyasa Flow",
@@ -108,7 +115,7 @@ async function createWeeklyBlock() {
     allowDropIn: true,
     startDate: "2026-02-02",
     endDate: "2026-04-20",
-    instructorId: instructor._id,
+    instructorId: organiser._id,
     sessionIds: [],
     description: "Progressive sequences building strength and flexibility.",
     price: "£60",
@@ -132,7 +139,33 @@ async function createWeeklyBlock() {
   await CourseModel.update(course._id, {
     sessionIds: sessions.map((s) => s._id),
   });
-  return { course, sessions, instructor };
+  return { course, sessions, organiser };
+}
+
+async function createBookings(student, w, b) {
+  // Book the student onto the full weekend workshop (all sessions)
+  const workshopSessionIds = w.sessions.map((s) => s._id);
+  await BookingModel.create({
+    userId: student._id,
+    courseId: w.course._id,
+    type: "COURSE",
+    sessionIds: workshopSessionIds,
+    status: "CONFIRMED",
+  });
+  for (const s of w.sessions) {
+    await SessionModel.incrementBookedCount(s._id, 1);
+  }
+
+  // Book the student onto the first session of the weekly block (drop-in)
+  const dropInSession = b.sessions[0];
+  await BookingModel.create({
+    userId: student._id,
+    courseId: b.course._id,
+    type: "SESSION",
+    sessionIds: [dropInSession._id],
+    status: "CONFIRMED",
+  });
+  await SessionModel.incrementBookedCount(dropInSession._id, 1);
 }
 
 async function verifyAndReport() {
@@ -159,11 +192,11 @@ async function run() {
   console.log("Wiping existing data…");
   await wipeAll();
 
-  console.log("Creating demo organiser…");
-  await ensureDemoOrganiser();
+  console.log("Creating organiser…");
+  await seedOrganiser();
 
-  console.log("Creating demo student…");
-  const student = await ensureDemoStudent();
+  console.log("Creating student…");
+  const student = await seedStudent();
 
   console.log("Creating weekend workshop…");
   const w = await createWeekendWorkshop();
@@ -171,11 +204,14 @@ async function run() {
   console.log("Creating weekly block…");
   const b = await createWeeklyBlock();
 
+  console.log("Creating bookings…");
+  await createBookings(student, w, b);
+
   await verifyAndReport();
 
   console.log("\n✅ Seed complete.");
-  console.log("Organiser login      : admin@yoga.local / organiser123");
-  console.log("Student ID           :", student._id);
+  console.log("Organiser login      : maya@yoga.local / organiser123");
+  console.log("Student login        : fiona@student.local / student123");
   console.log(
     "Workshop course ID   :",
     w.course._id,
