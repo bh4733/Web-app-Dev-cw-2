@@ -1,9 +1,9 @@
-import "./loadEnv.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import mustacheExpress from "mustache-express";
 import path from "path";
 import { fileURLToPath } from "url";
+import "./loadEnv.js";
 
 import courseRoutes from "./routes/courses.js";
 import sessionRoutes from "./routes/sessions.js";
@@ -43,10 +43,9 @@ app.get("/health", (req, res) => res.json({ ok: true }));
 app.use("/", viewRoutes);
 
 // JSON API routes
-// app.use('/auth', authRoutes);
+app.use("/bookings", bookingRoutes);
 app.use("/courses", courseRoutes);
 app.use("/sessions", sessionRoutes);
-app.use("/bookings", bookingRoutes);
 
 // Errors
 export const not_found = (req, res) =>
@@ -58,7 +57,6 @@ export const server_error = (err, req, res, next) => {
 app.use(not_found);
 app.use(server_error);
 
-// Only start the server outside tests
 if (process.env.NODE_ENV !== "test") {
   await initDb();
   const PORT = process.env.PORT || 3000;
