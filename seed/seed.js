@@ -21,10 +21,10 @@ async function wipeAll() {
     bookingsDb.remove({}, { multi: true }),
   ]);
   await Promise.all([
-    usersDb.persistence.compactDatafile(),
-    coursesDb.persistence.compactDatafile(),
-    sessionsDb.persistence.compactDatafile(),
-    bookingsDb.persistence.compactDatafile(),
+    usersDb.compactDatafile(),
+    coursesDb.compactDatafile(),
+    sessionsDb.compactDatafile(),
+    bookingsDb.compactDatafile(),
   ]);
 }
 
