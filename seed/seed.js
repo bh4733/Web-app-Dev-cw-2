@@ -206,8 +206,8 @@ async function run() {
 
   await verifyAndReport();
 
-  console.log("\n✅ Seed complete.");
-  console.log("Organiser login      : maya@yoga.local / organiser123");
+  console.log("\n Seed complete.");
+  console.log("Organiser login      : Admin@yoga.local / organiser123");
   console.log("Student login        : fiona@student.local / student123");
   console.log(
     "Workshop course ID   :",
