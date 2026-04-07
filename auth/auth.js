@@ -69,7 +69,7 @@ export const verify = (req, res, next) => {
   const accessToken = req.cookies?.jwt;
 
   if (!accessToken) {
-    return res.status(403).send();
+    return res.redirect("/register?prompt=booking");
   }
 
   try {
@@ -78,8 +78,9 @@ export const verify = (req, res, next) => {
     if (!req.user) req.user = payload;
     return next();
   } catch (e) {
-    // Token invalid/expired
-    return res.status(401).send();
+    // Token invalid/expired — treat as logged out
+    res.clearCookie("jwt");
+    return res.redirect("/register?prompt=booking");
   }
 };
 

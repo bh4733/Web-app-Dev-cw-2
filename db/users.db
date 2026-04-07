@@ -1,6 +1,6 @@
-{"name":"Fiona","email":"fiona@student.local","password":"$2b$12$tRVYnp6QZvvtNZnwgQyKeOZIysTq3E8BnzMGrH1MmGzXT74BxDn/6","role":"student","_id":"3GdWzv1agMMJkGIS"}
-{"name":"Ava","email":"ava@yoga.local","password":"$2b$12$gp6lk1mylXhWv34KuF8P.uBxCUa2lQ7znLZtpypASP7sA7rCm72wW","role":"organiser","_id":"8vMs37ugT5ZuuWf9"}
-{"name":"Ben","email":"ben@yoga.local","password":"$2b$12$qT2mh/x4VHrIC/Vs6.4fIeW4ooh1.WxIXtjnrl5j1XeejPcVj1hq6","role":"organiser","_id":"bu5mO5X17NWFPS6S"}
-{"name":"Admin","email":"Admin@yoga.local","password":"$2b$12$6.9O5iB9gddmt1LiCZy/GuvBDK5PJlu9rffVd66W2inMHfCo7GvbW","role":"organiser","_id":"ixy8ypD872I4aPvU"}
+{"name":"Admin","email":"Admin@yoga.local","password":"$2b$12$aE30lGDCimWAVZilR10mtOZ23XlpRo54ip0TBp7gHdcATqvpncVD2","role":"organiser","_id":"CiSWy6yEv5QHBhuj"}
+{"name":"Ava","email":"ava@yoga.local","password":"$2b$12$Gc4QJeCuXgnODECSm/QT4OKcSqZTwmD3SzfDFFLQfixLKKbkVZ5Sy","role":"organiser","_id":"NV4avaleVCqcX0Et"}
+{"name":"Ben","email":"ben@yoga.local","password":"$2b$12$75vD1qxzypC9HCHk.KYuY.w4v3u4wnpLr8NpSdAzqZelDyj43CV7.","role":"organiser","_id":"WBP1NEJfJ5Ut2QJG"}
+{"name":"Fiona","email":"fiona@student.local","password":"$2b$12$tyroa9TxPRwe6uH8Rv/2ieXx9T.VYSpvAHSzB93RG7D7t.LlfyOUO","role":"student","_id":"oJBCp5q71KfgbOvs"}
 {"$$indexCreated":{"fieldName":"email","unique":true,"sparse":false}}
 {"$$indexCreated":{"fieldName":"email","unique":true}}

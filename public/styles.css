@@ -340,6 +340,11 @@ legend {
   border: 1px solid #fca5a5;
   color: #991b1b;
 }
+.alert.info {
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  color: #1e40af;
+}
 .alert.error ul {
   margin: 0.35rem 0 0 1.2rem;
 }

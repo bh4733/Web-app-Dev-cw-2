@@ -213,7 +213,11 @@ export const logout = (req, res) => {
 };
 
 export const RegisterPage = (req, res) => {
-  res.render("register", { title: "Register" });
+  const prompt =
+    req.query.prompt === "booking"
+      ? "Please create an account to book a course or session."
+      : null;
+  res.render("register", { title: "Register", prompt });
 };
 
 export const postRegister = async (req, res, next) => {

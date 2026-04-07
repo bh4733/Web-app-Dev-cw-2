@@ -4,6 +4,10 @@
 <div style="max-width:420px">
   <h1>Create account</h1>
 
+  {{#prompt}}
+  <div class="alert info" role="status">{{.}}</div>
+  {{/prompt}}
+
   {{#errors}}
   <div class="alert error" role="alert" aria-live="assertive">
     <ul>
